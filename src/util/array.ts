@@ -8,6 +8,6 @@ declare global {
 
 if (!Array.prototype.sum) {
   Array.prototype.sum = function () {
-    return this.reduce((s, c) => s + c, 0);
+    return this.reduce((s, c) => s + c);
   };
 }
