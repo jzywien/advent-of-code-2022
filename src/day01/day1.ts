@@ -1,8 +1,5 @@
 export const day1step1 = (data: number[][]): number =>
-  data.reduce((max, curr) => {
-    const sum = curr.reduce((s, c) => s + c, 0);
-    return sum > max ? sum : max;
-  }, 0);
+  Math.max(...data.map((values) => values.reduce((s, c) => s + c, 0)));
 
 export const day1step2 = (data: number[][], topN: number = 3): number => {
   return data
