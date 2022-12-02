@@ -1,13 +1,13 @@
 export {};
 
 declare global {
-  interface Array<T> {
-    sum(): T;
-  }
+   interface Array<T> {
+      sum(): T;
+   }
 }
 
 if (!Array.prototype.sum) {
-  Array.prototype.sum = function () {
-    return this.reduce((s, c) => s + c);
-  };
+   Array.prototype.sum = function () {
+      return this.reduce((s, c) => s + c);
+   };
 }
