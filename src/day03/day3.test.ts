@@ -3,14 +3,14 @@ import sample from './sample.json';
 import input from './input.json';
 
 describe('day 3', () => {
-   describe('step 1', () => {
+   describe.only('step 1', () => {
       test('sample', () => {
          const result = step1(sample);
-         expect(result).toBe(0);
+         expect(result).toBe(157);
       });
       test('input', () => {
          const result = step1(input);
-         expect(result).toBe(0);
+         expect(result).toBe(7967);
       });
    });
 
