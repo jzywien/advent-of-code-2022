@@ -8,17 +8,17 @@ const moveStacks = (move: Move, stacks: Stack[], strategy: (stack: Stack) => Sta
    return stacks;
 };
 
-const noOpStrategy = (stack: Stack) => stack;
-const reverseStrategy = (stack: Stack) => {
-   return stack.reverse();
+export const Strategy = {
+   NoOp: (stack: Stack) => stack,
+   Reverse: (stack: Stack) => stack.reverse(),
 };
 
 export const step1 = (stacks: Stack[], moves: Move[]): string =>
    moves
-      .reduce((stacks, move) => moveStacks(move, stacks, reverseStrategy), [...stacks])
+      .reduce((stacks, move) => moveStacks(move, stacks, Strategy.Reverse), stacks)
       .reduce((top, stack) => `${top}${stack.pop()}`, '');
 
 export const step2 = (stacks: Stack[], moves: Move[]): string =>
    moves
-      .reduce((stacks, move) => moveStacks(move, stacks, noOpStrategy), [...stacks])
+      .reduce((stacks, move) => moveStacks(move, stacks, Strategy.NoOp), stacks)
       .reduce((top, stack) => `${top}${stack.pop()}`, '');
