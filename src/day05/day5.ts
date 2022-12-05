@@ -9,16 +9,11 @@ const moveStacks = (move: Move, stacks: Stack[], strategy: (stack: Stack) => Sta
 };
 
 export const Strategy = {
-   NoOp: (stack: Stack) => stack,
-   Reverse: (stack: Stack) => stack.reverse(),
+   NoOp: (stack: Stack): Stack => stack,
+   Reverse: (stack: Stack): Stack => stack.reverse(),
 };
 
-export const step1 = (stacks: Stack[], moves: Move[]): string =>
+export const solution = (stacks: Stack[], moves: Move[], strategy = Strategy.NoOp): string =>
    moves
-      .reduce((stacks, move) => moveStacks(move, stacks, Strategy.Reverse), stacks)
-      .reduce((top, stack) => `${top}${stack.pop()}`, '');
-
-export const step2 = (stacks: Stack[], moves: Move[]): string =>
-   moves
-      .reduce((stacks, move) => moveStacks(move, stacks, Strategy.NoOp), stacks)
+      .reduce((stacks, move) => moveStacks(move, stacks, strategy), stacks)
       .reduce((top, stack) => `${top}${stack.pop()}`, '');
