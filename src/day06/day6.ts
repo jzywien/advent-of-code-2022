@@ -1,6 +1,6 @@
-export const step1 = (data: string): number =>
+export const solution = (data: string, matchLen: number = 4): number =>
    data.split('').findIndex((_, ndx, orig) => {
-      return new Set(orig.slice(ndx, ndx + 4)).size === 4;
-   }) + 4;
+      return new Set(orig.slice(ndx, ndx + matchLen)).size === matchLen;
+   }) + matchLen;
 
 export const step2 = (data: string): number => 0;

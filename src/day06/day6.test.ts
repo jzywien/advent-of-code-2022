@@ -1,44 +1,62 @@
-import { step1, step2 } from './day6';
+import { solution } from './day6';
 import { data } from './input';
 
 describe('day 6', () => {
-   describe.only('step 1', () => {
+   describe('step 1', () => {
       describe('samples', () => {
          test('sample 1', () => {
-            const result = step1('mjqjpqmgbljsphdztnvjfqwrcgsmlb');
+            const result = solution('mjqjpqmgbljsphdztnvjfqwrcgsmlb');
             expect(result).toEqual(7);
          });
          test('sample 2', () => {
-            const result = step1('bvwbjplbgvbhsrlpgdmjqwftvncz');
+            const result = solution('bvwbjplbgvbhsrlpgdmjqwftvncz');
             expect(result).toEqual(5);
          });
          test('sample 3', () => {
-            const result = step1('nppdvjthqldpwncqszvftbrmjlhg');
+            const result = solution('nppdvjthqldpwncqszvftbrmjlhg');
             expect(result).toEqual(6);
          });
          test('sample 4', () => {
-            const result = step1('nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg');
+            const result = solution('nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg');
             expect(result).toEqual(10);
          });
          test('sample 5', () => {
-            const result = step1('zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw');
+            const result = solution('zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw');
             expect(result).toEqual(11);
          });
       });
       test('input', () => {
-         const result = step1(data);
+         const result = solution(data);
          expect(result).toEqual(1361);
       });
    });
 
    describe('step 2', () => {
-      test('sample', () => {
-         const result = step2('');
-         expect(result).toEqual(-1);
+      describe('samples', () => {
+         test('sample 1', () => {
+            const result = solution('mjqjpqmgbljsphdztnvjfqwrcgsmlb', 14);
+            expect(result).toEqual(19);
+         });
+         test('sample 2', () => {
+            const result = solution('bvwbjplbgvbhsrlpgdmjqwftvncz', 14);
+            expect(result).toEqual(23);
+         });
+         test('sample 3', () => {
+            const result = solution('nppdvjthqldpwncqszvftbrmjlhg', 14);
+            expect(result).toEqual(23);
+         });
+         test('sample 4', () => {
+            const result = solution('nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg', 14);
+            expect(result).toEqual(29);
+         });
+         test('sample 5', () => {
+            const result = solution('zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw');
+            expect(result).toEqual(11);
+         });
       });
       test('input', () => {
-         const result = step2(data);
-         expect(result).toEqual(-1);
+         const result = solution(data, 14);
+         expect(result).toEqual(3263);
       });
    });
 });
