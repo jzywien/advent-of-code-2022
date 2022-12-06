@@ -16,11 +16,11 @@ describe('day 1', () => {
 
    describe('step 2', () => {
       test('sample', () => {
-         const maxCalories = step2(sample, 3);
+         const maxCalories = step2(sample);
          expect(maxCalories).toEqual(45000);
       });
       test('input', () => {
-         const maxCalories = step2(input, 3);
+         const maxCalories = step2(input);
          expect(maxCalories).toEqual(200116);
       });
    });
