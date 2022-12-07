@@ -2,8 +2,9 @@ export {};
 
 declare global {
    interface Array<T> {
-      sum(): T;
+      sum(): number;
       chunk(chunkSize: number): T[][];
+      peek(): T;
    }
 }
 
@@ -20,5 +21,11 @@ if (!Array.prototype.chunk) {
          chunks.push(this.slice(i, i + chunkSize));
       }
       return chunks;
+   };
+}
+
+if (!Array.prototype.peek) {
+   Array.prototype.peek = function (): any {
+      return this.at(-1);
    };
 }
