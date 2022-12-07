@@ -10,9 +10,5 @@ export const numericSolution = (data: string[][], strategy = NumericStrategy.NoO
          result.charCodeAt(0) - 'X'.charCodeAt(0),
       ])
       .map(([opponent, result]) => strategy(opponent, result))
-      .reduce((sum, [opponent, elf]) => {
-         sum += elf + 1;
-         if (opponent === elf) return sum + 3;
-         else if ((opponent + 1) % 3 === elf) return sum + 6;
-         return sum;
-      }, 0);
+      .map(([opponent, elf]) => (opponent === elf ? elf + 4 : (opponent + 1) % 3 === elf ? elf + 7 : elf + 1))
+      .sum();
