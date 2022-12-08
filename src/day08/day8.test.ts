@@ -9,18 +9,18 @@ describe('day 8', () => {
       });
       test('input', () => {
          const result = step1(input);
-         expect(result).toEqual(-1);
+         expect(result).toEqual(1798);
       });
    });
 
    describe('step 2', () => {
       test('sample', () => {
          const result = step2(sample);
-         expect(result).toEqual(-1);
+         expect(result).toEqual(8);
       });
       test('input', () => {
          const result = step2(input);
-         expect(result).toEqual(-1);
+         expect(result).toEqual(259308);
       });
    });
 });
