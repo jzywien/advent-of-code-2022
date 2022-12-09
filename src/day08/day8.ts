@@ -1,7 +1,9 @@
 import '../util/array';
-import { buildGrid, Direction } from './util';
+import { Direction } from '../util/direction';
 
-const visibleInDirection = (g: number[][], r: number, c: number, v: number, d: number[]): boolean => {
+const buildGrid = (lines: string[]): number[][] => lines.map((line) => line.split('').map((c) => parseInt(c)));
+
+const visibleInDirection = (g: number[][], r: number, c: number, v: number, d: [number, number]): boolean => {
    const size = g.length - 1;
    if (r === 0 || c === 0 || r === size || c === size) return true;
 
@@ -11,7 +13,7 @@ const visibleInDirection = (g: number[][], r: number, c: number, v: number, d: n
 };
 
 const isVisible = (grid: number[][], row: number, col: number): boolean =>
-   [Direction.Right, Direction.Left, Direction.Up, Direction.Down].some((dir) =>
+   [Direction.R, Direction.L, Direction.U, Direction.D].some((dir) =>
       visibleInDirection(grid, row, col, grid[row][col], dir)
    );
 
@@ -23,7 +25,14 @@ export const step1 = (lines: string[]): number => {
       .sum();
 };
 
-const numVisibleInDirection = (g: number[][], r: number, c: number, v: number, d: number[], num = 0): number => {
+const numVisibleInDirection = (
+   g: number[][],
+   r: number,
+   c: number,
+   v: number,
+   d: [number, number],
+   num = 0
+): number => {
    const size = g.length - 1;
    if (r === 0 || c === 0 || r === size || c === size) return num;
 
@@ -33,7 +42,7 @@ const numVisibleInDirection = (g: number[][], r: number, c: number, v: number, d
 };
 
 const calculateScore = (grid: number[][], row: number, col: number): number =>
-   [Direction.Right, Direction.Left, Direction.Up, Direction.Down]
+   [Direction.R, Direction.L, Direction.U, Direction.D]
       .map((dir) => numVisibleInDirection(grid, row, col, grid[row][col], dir))
       .reduce((result, score) => result * score, 1);
 

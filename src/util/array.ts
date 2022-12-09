@@ -8,6 +8,10 @@ declare global {
    }
 }
 
+export const times = (num: number, cb: (ndx: number) => any) => {
+   for (let i = 0; i < num; ++i) cb(i);
+};
+
 if (!Array.prototype.sum) {
    Array.prototype.sum = function (): number {
       return this.reduce((s, c) => s + c);
