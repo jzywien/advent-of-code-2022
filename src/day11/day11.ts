@@ -2,10 +2,10 @@ import { times } from '../util/array';
 import { Monkey } from './monkey';
 import { lcm } from '../util/math';
 
-function evalWithContext(item: number, fnStr: string) {
-   let old = item;
+const evalWithContext = (item: number, fnStr: string) => {
+   const old = item;
    return eval(fnStr);
-}
+};
 
 const calculateMonkeyBiz = (monkeys: Monkey[]): number =>
    monkeys
