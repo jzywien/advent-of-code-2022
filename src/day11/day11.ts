@@ -14,9 +14,8 @@ const calculateMonkeyBiz = (monkeys: Monkey[]): number =>
       .slice(0, 2)
       .reduce((monkeyBiz, val) => monkeyBiz * val);
 
-export const step1 = (data: [number, Monkey][]): number => {
-   const copy: Map<number, Monkey> = new Map(JSON.parse(JSON.stringify(data)));
-   const monkeys = [...copy.values()];
+export const step1 = (data: Monkey[]): number => {
+   const monkeys: Monkey[] = JSON.parse(JSON.stringify(data));
 
    times(20, () => {
       monkeys.forEach((monkey) => {
@@ -25,7 +24,7 @@ export const step1 = (data: [number, Monkey][]): number => {
             let worry = evalWithContext(item, monkey.operation);
             worry = Math.floor(worry / 3);
             const toMonkey = worry % monkey.modulo === 0 ? monkey.testTrue : monkey.testFalse;
-            copy.get(toMonkey)?.items.push(worry);
+            monkeys[toMonkey].items.push(worry);
          });
          monkey.items = [];
       });
@@ -34,10 +33,8 @@ export const step1 = (data: [number, Monkey][]): number => {
    return calculateMonkeyBiz(monkeys);
 };
 
-export const step2 = (data: [number, Monkey][]): number => {
-   const copy: Map<number, Monkey> = new Map(JSON.parse(JSON.stringify(data)));
-
-   const monkeys = [...copy.values()];
+export const step2 = (data: Monkey[]): number => {
+   const monkeys: Monkey[] = JSON.parse(JSON.stringify(data));
    const modulo = monkeys.map((monkey) => monkey.modulo).reduce(lcm);
 
    times(10000, () => {
@@ -46,7 +43,7 @@ export const step2 = (data: [number, Monkey][]): number => {
          monkey.items.forEach((item) => {
             const worry = evalWithContext(item, monkey.operation) % modulo;
             const toMonkey = worry % monkey.modulo === 0 ? monkey.testTrue : monkey.testFalse;
-            copy.get(toMonkey)?.items.push(worry);
+            monkeys[toMonkey]?.items.push(worry);
          });
          monkey.items = [];
       });
