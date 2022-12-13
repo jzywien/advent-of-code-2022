@@ -18,15 +18,15 @@ export const compare = (left: NumberOrArray, right: NumberOrArray): number => {
 export const step1 = (data: [NumberOrArray, NumberOrArray][]): number =>
    data.map(([left, right], ndx) => (compare(left, right) < 0 ? ndx + 1 : 0)).sum();
 
-export const step2 = (data: [NumberOrArray, NumberOrArray][]): number => {
-   const initial: NumberOrArray = [[[2]], [[6]]];
-   const packets = data
+const initial: NumberOrArray = [[[2]], [[6]]];
+export const step2 = (data: [NumberOrArray, NumberOrArray][]): number =>
+   data
       .reduce((all, [left, right]) => [...all, left, right], initial)
       .sort((left, right) => compare(left, right))
-      .map((packet) => JSON.stringify(packet));
-
-   const first = packets.findIndex((val) => val === '[[2]]') + 1;
-   const last = packets.findIndex((val) => val === '[[6]]') + 1;
-
-   return first * last;
-};
+      .map((packet, ndx) => {
+         const packetStr = JSON.stringify(packet);
+         if (packetStr === '[[2]]' || packetStr === '[[6]]') return ndx + 1;
+         return 0;
+      })
+      .filter((x) => x)
+      .reduce((val, ndx) => val * ndx, 1);
