@@ -3,8 +3,10 @@ export const NumericStrategy = {
    Result: (opponent: number, result: number): number[] => [opponent, (opponent + result + 2) % 3],
 };
 
-export const numericSolution = (data: string[][], strategy = NumericStrategy.NoOp): number =>
-   data
+export const numericSolution = (input: string, strategy = NumericStrategy.NoOp): number =>
+   input
+      .lines()
+      .map((line) => line.split(' '))
       .map(([opponent, result]) => [
          opponent.charCodeAt(0) - 'A'.charCodeAt(0),
          result.charCodeAt(0) - 'X'.charCodeAt(0),

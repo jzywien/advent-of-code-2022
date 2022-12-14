@@ -41,7 +41,8 @@ export const step2 = (data: Monkey[]): number => {
       monkeys.forEach((monkey) => {
          monkey.inspections += monkey.items.length;
          monkey.items.forEach((item) => {
-            const worry = evalWithContext(item, monkey.operation) % modulo;
+            let worry = evalWithContext(item, monkey.operation) % modulo;
+            worry = worry % modulo;
             const toMonkey = worry % monkey.modulo === 0 ? monkey.testTrue : monkey.testFalse;
             monkeys[toMonkey]?.items.push(worry);
          });

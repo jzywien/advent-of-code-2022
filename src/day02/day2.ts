@@ -1,4 +1,4 @@
-import '../util/array';
+import '../util/polyfills';
 
 const score: Record<string, Record<string, number>> = {
    X: { A: 4, B: 1, C: 7 }, // inc by 1
@@ -17,8 +17,10 @@ export const Strategy = {
    Result: (opponent: string, result: string): string[] => [opponent, choice[result][opponent]],
 };
 
-export const solution = (data: string[][], strategy = Strategy.NoOp): number =>
-   data
+export const solution = (input: string, strategy = Strategy.NoOp): number =>
+   input
+      .lines()
+      .map((line) => line.split(' '))
       .map(([opponent, result]) => strategy(opponent, result))
       .map(([opponent, elf]) => score[elf][opponent])
       .sum();

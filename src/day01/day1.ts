@@ -1,11 +1,15 @@
-import '../util/array';
+import '../util/polyfills';
 
-export const step1 = (data: number[][]): number => Math.max(...data.map((v) => v.sum()));
+export const step1 = (input: string): number =>
+   input
+      .splitAndGroup((item) => parseInt(item, 10))
+      .map((group) => group.sum())
+      .max();
 
-export const step2 = (data: number[][]): number => {
-   return data
-      .map((v) => v.sum())
-      .sort((a, b) => b - a)
-      .slice(0, 3)
+export const step2 = (input: string): number =>
+   input
+      .splitAndGroup((item) => parseInt(item, 10))
+      .map((group) => group.sum())
+      .desc()
+      .take(3)
       .sum();
-};

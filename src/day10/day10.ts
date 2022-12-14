@@ -1,10 +1,18 @@
-const buildCycles = (data: [string, number?][]) =>
-   data.reduce((c: number[], [cmd, val]) => {
-      return cmd === 'addx' ? [...c, 0, val!] : [...c, 0];
-   }, []);
+import '../util/polyfills';
 
-export const step1 = (data: [string, number?][]): number => {
-   const cycles = buildCycles(data);
+type Cycle = [string, number];
+
+const getCycles = (input: string): number[] =>
+   input
+      .lines()
+      .map((line) => line.split(' '))
+      .map(([move, val]): Cycle => [move, parseInt(val)])
+      .reduce((c: number[], [cmd, val]) => {
+         return cmd === 'addx' ? [...c, 0, val!] : [...c, 0];
+      }, []);
+
+export const step1 = (input: string): number => {
+   const cycles = getCycles(input);
 
    let x = 1;
    let strength = 0;
@@ -17,12 +25,9 @@ export const step1 = (data: [string, number?][]): number => {
    return strength;
 };
 
-export const step2 = (data: [string, number?][]): string => {
-   const cycles = buildCycles(data);
-
-   const grid: string[][] = Array(6)
-      .fill(0)
-      .map(() => new Array(40).fill(''));
+export const step2 = (input: string): string => {
+   const cycles = getCycles(input);
+   const grid: string[][] = Array.from({ length: 6 }, () => Array.from({ length: 40 }, () => ''));
 
    let x = 1;
    for (let i = 0; i < cycles.length; ++i) {

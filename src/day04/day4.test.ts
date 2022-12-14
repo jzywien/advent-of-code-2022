@@ -1,8 +1,13 @@
+import { getInput } from '../util/file';
 import { solution, Strategy } from './day4';
-import sample from './sample.json';
-import input from './input.json';
 
 describe('day 4', () => {
+   let [input, sample] = ['', ''];
+   beforeEach(async () => {
+      sample = await getInput(__dirname, 'sample');
+      input = await getInput(__dirname, 'input');
+   });
+
    describe('step 1', () => {
       test('sample', () => {
          const result = solution(sample);

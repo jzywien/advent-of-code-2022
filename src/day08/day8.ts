@@ -1,7 +1,5 @@
-import '../util/array';
+import '../util/polyfills';
 import { Direction } from '../util/direction';
-
-const buildGrid = (lines: string[]): number[][] => lines.map((line) => line.split('').map((c) => parseInt(c)));
 
 const visibleInDirection = (g: number[][], r: number, c: number, v: number, d: [number, number]): boolean => {
    const size = g.length - 1;
@@ -17,8 +15,8 @@ const isVisible = (grid: number[][], row: number, col: number): boolean =>
       visibleInDirection(grid, row, col, grid[row][col], dir)
    );
 
-export const step1 = (lines: string[]): number => {
-   const grid = buildGrid(lines);
+export const step1 = (input: string): number => {
+   const grid = input.toMatrix(parseInt);
    return grid
       .reduce((visible, row, r) => [...visible, row.map((_, c) => isVisible(grid, r, c))], [] as boolean[][])
       .map((row) => row.filter((v) => v).length)
@@ -46,11 +44,10 @@ const calculateScore = (grid: number[][], row: number, col: number): number =>
       .map((dir) => numVisibleInDirection(grid, row, col, grid[row][col], dir))
       .reduce((result, score) => result * score, 1);
 
-export const step2 = (lines: string[]): number => {
-   const grid = buildGrid(lines);
-   const v = grid
+export const step2 = (input: string): number => {
+   const grid = input.toMatrix(parseInt);
+   return grid
       .reduce((visible, row, r) => [...visible, row.map((_, c) => calculateScore(grid, r, c))], [] as number[][])
-      .map((row) => Math.max(...row));
-
-   return Math.max(...v);
+      .map((row) => Math.max(...row))
+      .max();
 };

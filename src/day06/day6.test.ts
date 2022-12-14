@@ -1,7 +1,12 @@
+import { getInput } from '../util/file';
 import { solution } from './day6';
-import { data } from './input';
 
 describe('day 6', () => {
+   let input = '';
+   beforeEach(async () => {
+      input = await getInput(__dirname, 'input');
+   });
+
    describe('step 1', () => {
       describe('samples', () => {
          test('sample 1', () => {
@@ -26,7 +31,7 @@ describe('day 6', () => {
          });
       });
       test('input', () => {
-         const result = solution(data);
+         const result = solution(input);
          expect(result).toEqual(1361);
       });
    });
@@ -55,7 +60,7 @@ describe('day 6', () => {
          });
       });
       test('input', () => {
-         const result = solution(data, 14);
+         const result = solution(input, 14);
          expect(result).toEqual(3263);
       });
    });

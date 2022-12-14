@@ -3,7 +3,7 @@ import { Directory } from './directory';
 import { File } from './file';
 import { MaxSizeVisitor } from './max-size-visitor';
 import { BigEnoughVisitor } from './big-enough-visitor';
-import '../util/array';
+import '../util/polyfills';
 
 const buildDirectory = (lines: string[]): Entry | undefined => {
    const dirStack: Entry[] = [];
@@ -30,15 +30,15 @@ const buildDirectory = (lines: string[]): Entry | undefined => {
    return dirStack.at(0);
 };
 
-export const step1 = (lines: string[]): number => {
-   const rootDir = buildDirectory(lines) as Directory;
+export const step1 = (input: string): number => {
+   const rootDir = buildDirectory(input.lines()) as Directory;
    const visitor = new MaxSizeVisitor(100000);
    rootDir.accept(visitor);
    return visitor.sizes.sum();
 };
 
-export const step2 = (lines: string[]): number => {
-   const rootDir = buildDirectory(lines) as Directory;
+export const step2 = (input: string): number => {
+   const rootDir = buildDirectory(input.lines()) as Directory;
    const visitor = new BigEnoughVisitor(rootDir.size());
    rootDir.accept(visitor);
    return Math.min(...visitor.sizes);

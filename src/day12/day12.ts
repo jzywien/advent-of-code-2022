@@ -1,4 +1,5 @@
 import { Direction } from '../util/direction';
+import '../util/polyfills';
 
 const coord = ([x, y]: [number, number]) => `${x}:${y}`;
 
@@ -22,11 +23,11 @@ const findAdjacent2 = (grid: string[][], r: number, c: number): [number, number]
       }, [] as [number, number][]);
 };
 
-export const step1 = (lines: string[]): number => {
+export const step1 = (input: string): number => {
    let start: [number, number] = [0, 0];
    let end: [number, number] = [0, 0];
 
-   const grid = lines.reduce((grid: string[][], line, row) => {
+   const grid = input.lines().reduce((grid: string[][], line, row) => {
       const chars = line.split('');
       const charCodes = chars.map((char, col) => {
          if (char === 'S') {
@@ -60,10 +61,10 @@ export const step1 = (lines: string[]): number => {
    return -1;
 };
 
-export const step2 = (lines: string[]): number => {
+export const step2 = (input: string): number => {
    let start: [number, number] = [0, 0];
 
-   const grid = lines.reduce((grid: string[][], line, row) => {
+   const grid = input.lines().reduce((grid: string[][], line, row) => {
       const chars = line.split('');
       const charCodes = chars.map((char, col) => {
          if (char === 'S') {

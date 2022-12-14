@@ -1,27 +1,32 @@
+import { getInput } from '../util/file';
 import { step1, step2 } from './day1';
-import sample from './sample.json';
-import input from './input.json';
 
 describe('day 1', () => {
+   let [input, sample] = ['', ''];
+   beforeEach(async () => {
+      sample = await getInput(__dirname, 'sample');
+      input = await getInput(__dirname, 'input');
+   });
+
    describe('step 1', () => {
       test('sample', () => {
-         const maxCalories = step1(sample);
-         expect(maxCalories).toEqual(24000);
+         const result = step1(sample);
+         expect(result).toEqual(24000);
       });
       test('input', () => {
-         const maxCalories = step1(input);
-         expect(maxCalories).toEqual(67016);
+         const result = step1(input);
+         expect(result).toEqual(67016);
       });
    });
 
    describe('step 2', () => {
       test('sample', () => {
-         const maxCalories = step2(sample);
-         expect(maxCalories).toEqual(45000);
+         const result = step2(sample);
+         expect(result).toEqual(45000);
       });
       test('input', () => {
-         const maxCalories = step2(input);
-         expect(maxCalories).toEqual(200116);
+         const result = step2(input);
+         expect(result).toEqual(200116);
       });
    });
 });

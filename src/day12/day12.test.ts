@@ -1,10 +1,16 @@
-import { input, sample } from './data';
+import { getInput } from '../util/file';
 import { step1, step2 } from './day12';
 
 describe('day 11', () => {
+   let [input, sample] = ['', ''];
+   beforeEach(async () => {
+      sample = await getInput(__dirname, 'sample');
+      input = await getInput(__dirname, 'input');
+   });
+
    describe('step 1', () => {
       it('returns -1 with no data', () => {
-         const result = step1([]);
+         const result = step1('');
          expect(result).toBe(-1);
       });
       it('sample', () => {
@@ -19,7 +25,7 @@ describe('day 11', () => {
 
    describe('step 2', () => {
       it('returns -1 with no data', () => {
-         const result = step2([]);
+         const result = step2('');
          expect(result).toBe(-1);
       });
 

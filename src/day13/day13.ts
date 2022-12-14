@@ -1,5 +1,7 @@
-import '../util/array';
-import { NumberOrArray } from './data';
+import { wrap } from '../util/array';
+import '../util/polyfills';
+
+type NumberOrArray = number | NumberOrArray[];
 
 export const compare = (left: NumberOrArray, right: NumberOrArray): number => {
    if (Number.isInteger(left) && Number.isInteger(right)) {
@@ -10,23 +12,25 @@ export const compare = (left: NumberOrArray, right: NumberOrArray): number => {
          if (result !== 0) return result;
       }
       return left.length - right.length;
-   } else if (Number.isInteger(left)) {
-      return compare([left], right);
-   } else return compare(left, [right]);
+   } else return compare(wrap(left), wrap(right));
 };
 
-export const step1 = (data: [NumberOrArray, NumberOrArray][]): number =>
-   data.map(([left, right], ndx) => (compare(left, right) < 0 ? ndx + 1 : 0)).sum();
+const processInput = (input: string): [NumberOrArray, NumberOrArray][] =>
+   input
+      .splitAndGroup<string>()
+      .map(([left, right]) => [JSON.parse(left) as NumberOrArray, JSON.parse(right) as NumberOrArray]);
+
+export const step1 = (input: string): number => {
+   const data = processInput(input);
+   return data.map(([left, right], ndx) => (compare(left, right) < 0 ? ndx + 1 : 0)).sum();
+};
 
 const initial: NumberOrArray = [[[2]], [[6]]];
-export const step2 = (data: [NumberOrArray, NumberOrArray][]): number =>
-   data
+export const step2 = (input: string): number =>
+   processInput(input)
       .reduce((all, [left, right]) => [...all, left, right], initial)
       .sort((left, right) => compare(left, right))
-      .map((packet, ndx) => {
-         const packetStr = JSON.stringify(packet);
-         if (packetStr === '[[2]]' || packetStr === '[[6]]') return ndx + 1;
-         return 0;
-      })
+      .map((p) => JSON.stringify(p))
+      .map((p, ndx) => (p === '[[2]]' || p === '[[6]]' ? ndx + 1 : 0))
       .filter((x) => x)
       .reduce((val, ndx) => val * ndx, 1);

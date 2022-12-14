@@ -1,7 +1,14 @@
 import { step1, step2 } from './day9';
-import { sample, sample2, input } from './data';
+import { getInput } from '../util/file';
 
 describe('day 9', () => {
+   let [input, sample, sample2] = ['', '', ''];
+   beforeEach(async () => {
+      sample = await getInput(__dirname, 'sample1');
+      sample2 = await getInput(__dirname, 'sample2');
+      input = await getInput(__dirname, 'input');
+   });
+
    describe('step 1', () => {
       test('sample', () => {
          const result = step1(sample);

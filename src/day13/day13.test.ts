@@ -1,7 +1,13 @@
-import { input, sample } from './data';
+import { getInput } from '../util/file';
 import { compare, step1, step2 } from './day13';
 
 describe('day 13', () => {
+   let [input, sample] = ['', ''];
+   beforeEach(async () => {
+      sample = await getInput(__dirname, 'sample');
+      input = await getInput(__dirname, 'input');
+   });
+
    describe('step 1', () => {
       it('sample', () => {
          const result = step1(sample);
@@ -11,14 +17,6 @@ describe('day 13', () => {
       it('input', () => {
          const result = step1(input);
          expect(result).toBe(5196);
-      });
-
-      [true, true, false, true, false, true, false, false].forEach((result, ndx) => {
-         it(`pair ${ndx + 1} should be ${result}`, () => {
-            const [left, right] = sample.at(ndx)!;
-            const correct = compare(left, right) < 0;
-            expect(correct).toBe(result);
-         });
       });
    });
 
