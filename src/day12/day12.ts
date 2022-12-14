@@ -1,56 +1,52 @@
 import { Direction } from '../util/direction';
 import '../util/polyfills';
 
-const coord = ([x, y]: [number, number]) => `${x}:${y}`;
+type Point = [number, number];
 
-const findAdjacent = (grid: string[][], r: number, c: number): [number, number][] => {
+const coord = ([x, y]: Point) => `${x}:${y}`;
+
+const findAdjacent = (grid: string[][], r: number, c: number, notAdjTest: (num: number) => boolean): Point[] => {
    return Object.values(Direction)
       .map(([dx, dy]) => [r + dx, c + dy])
       .reduce((adj, [nr, nc]) => {
          if (nr < 0 || nc < 0 || nr >= grid.length || nc >= grid[r].length) return adj;
-         if (grid[nr][nc].charCodeAt(0) - grid[r][c].charCodeAt(0) > 1) return adj;
+         const diff = grid[nr][nc].charCodeAt(0) - grid[r][c].charCodeAt(0);
+         if (notAdjTest(diff)) return adj;
          return [...adj, [nr, nc]];
-      }, [] as [number, number][]);
+      }, [] as Point[]);
 };
 
-const findAdjacent2 = (grid: string[][], r: number, c: number): [number, number][] => {
-   return Object.values(Direction)
-      .map(([dx, dy]) => [r + dx, c + dy])
-      .reduce((adj, [nr, nc]) => {
-         if (nr < 0 || nc < 0 || nr >= grid.length || nc >= grid[r].length) return adj;
-         if (grid[nr][nc].charCodeAt(0) - grid[r][c].charCodeAt(0) < -1) return adj;
-         return [...adj, [nr, nc]];
-      }, [] as [number, number][]);
-};
-
-export const step1 = (input: string): number => {
-   let start: [number, number] = [0, 0];
-   let end: [number, number] = [0, 0];
+const buildGrid = (input: string, start: string, end?: string): [string[][], Point, Point | undefined] => {
+   let s: Point = [0, 0];
+   let e: Point | undefined;
 
    const grid = input.lines().reduce((grid: string[][], line, row) => {
       const chars = line.split('');
       const charCodes = chars.map((char, col) => {
-         if (char === 'S') {
-            start = [row, col];
-            return 'a';
-         }
-         if (char === 'E') {
-            end = [row, col];
-            return 'z';
-         }
+         if (char === start) s = [row, col];
+         else if (char === end) e = [row, col];
+         if (char === 'S') return 'a';
+         else if (char === 'E') return 'z';
          return char;
       });
       return [...grid, charCodes];
    }, []);
 
+   return [grid, s, e];
+};
+
+export const step1 = (input: string): number => {
+   const [grid, start, end] = buildGrid(input, 'S', 'E');
    const [sr, sc] = start;
-   const [er, ec] = end;
+   const [er, ec] = end ?? [0, 0];
+
    const visited = new Set([`${sr}:${sc}`]);
    const queue: [number, string][] = [[0, `${sr}:${sc}`]];
+   const notAdjTest = (num: number) => num > 1;
    while (queue.length) {
       const [dist, vtx] = queue.shift()!;
       const [r, c] = vtx.split(':').map((n) => parseInt(n));
-      for (let adj of findAdjacent(grid, r, c)) {
+      for (let adj of findAdjacent(grid, r, c, notAdjTest)) {
          const pos = coord(adj);
          if (pos === `${er}:${ec}`) return dist + 1;
          if (visited.has(pos)) continue;
@@ -62,30 +58,16 @@ export const step1 = (input: string): number => {
 };
 
 export const step2 = (input: string): number => {
-   let start: [number, number] = [0, 0];
-
-   const grid = input.lines().reduce((grid: string[][], line, row) => {
-      const chars = line.split('');
-      const charCodes = chars.map((char, col) => {
-         if (char === 'S') {
-            return 'a';
-         }
-         if (char === 'E') {
-            start = [row, col];
-            return 'z';
-         }
-         return char;
-      });
-      return [...grid, charCodes];
-   }, []);
-
+   const [grid, start] = buildGrid(input, 'E');
    const [sr, sc] = start;
+
    const visited = new Set([`${sr}:${sc}`]);
    const queue: [number, string][] = [[0, `${sr}:${sc}`]];
+   const notAdjTest = (num: number) => num < -1;
    while (queue.length) {
       const [dist, vtx] = queue.shift()!;
       const [r, c] = vtx.split(':').map((n) => parseInt(n));
-      for (let adj of findAdjacent2(grid, r, c)) {
+      for (let adj of findAdjacent(grid, r, c, notAdjTest)) {
          const [nr, nc] = adj;
          if (grid[nr][nc] === 'a') return dist + 1;
 
