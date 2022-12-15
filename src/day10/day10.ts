@@ -7,9 +7,7 @@ const getCycles = (input: string): number[] =>
       .lines()
       .map((line) => line.split(' '))
       .map(([move, val]): Cycle => [move, parseInt(val)])
-      .reduce((c: number[], [cmd, val]) => {
-         return cmd === 'addx' ? [...c, 0, val!] : [...c, 0];
-      }, []);
+      .reduce((c: number[], [cmd, val]) => (cmd === 'addx' ? [...c, 0, val!] : [...c, 0]), []);
 
 export const step1 = (input: string): number => {
    const cycles = getCycles(input);

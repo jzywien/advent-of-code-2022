@@ -6,7 +6,7 @@ const getRocks = (input: string): ObjectSet<Point> =>
    input.lines().reduce((rockSet, line) => {
       let prev: Point | undefined = undefined;
       for (let p of line.split('->')) {
-         const point = new Point(p as PointStr);
+         const point = Point.fromString(p);
          if (!!prev) {
             const between = point.between(prev);
             between.forEach((point) => rockSet.add(point));

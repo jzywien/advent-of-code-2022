@@ -1,6 +1,6 @@
 import { times } from '../util/array';
 import { Direction } from '../util/direction';
-import { Point } from './point';
+import { Point } from '../util/geom';
 import '../util/polyfills';
 
 type Motion = [string, number];
@@ -12,8 +12,8 @@ const getMotions = (input: string): Motion[] =>
       .map(([move, val]): Motion => [move, parseInt(val)]);
 
 export const step1 = (input: string): number => {
-   const head = new Point();
-   const tail = new Point();
+   const head = new Point(0, 0);
+   const tail = new Point(0, 0);
 
    return getMotions(input).reduce((visited, [dir, moves]) => {
       times(moves, () => {
@@ -26,7 +26,7 @@ export const step1 = (input: string): number => {
 };
 
 export const step2 = (input: string): number => {
-   const ropes = new Array(10).fill(0).map((r) => new Point());
+   const ropes = Array.from({ length: 10 }).map((r) => new Point(0, 0));
    return getMotions(input).reduce((visited, [dir, moves]) => {
       times(moves, () => {
          ropes[0].step(Direction[dir]);
