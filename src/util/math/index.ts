@@ -11,3 +11,5 @@ export const isBetween = (n: number | bigint, l: number | bigint, h: number | bi
 
 export const gcd = (a: number, b: number): number => (a ? gcd(b % a, a) : b);
 export const lcm = (a: number, b: number): number => (a * b) / gcd(a, b);
+
+export const clamp = (n: number, min: number, max: number) => Math.min(Math.max(n, min), max);
