@@ -1,6 +1,5 @@
 import { ObjectSet } from '../util/set/object-set';
 import { Point, PointStr } from '../util/geom';
-import { clamp } from '../util/math';
 import '../util/polyfills';
 
 const getRocks = (input: string): ObjectSet<Point> =>
@@ -9,14 +8,8 @@ const getRocks = (input: string): ObjectSet<Point> =>
       for (let p of line.split('->')) {
          const point = new Point(p as PointStr);
          if (!!prev) {
-            const dx = point.x - prev.x;
-            const dy = point.y - prev.y;
-            const d = Math.max(Math.abs(dx), Math.abs(dy));
-            for (let i = 0; i <= d; ++i) {
-               const x = prev.x + i * clamp(dx, -1, 1);
-               const y = prev.y + i * clamp(dy, -1, 1);
-               rockSet.add(new Point(x, y));
-            }
+            const between = point.between(prev);
+            between.forEach((point) => rockSet.add(point));
          }
          prev = point;
       }
@@ -33,6 +26,16 @@ const addFloor = (rocks: ObjectSet<Point>): number => {
    return floor;
 };
 
+const updateSandPosition = (sand: Point, rocks: ObjectSet<Point>): Point => {
+   if (!rocks.has(new Point(sand.x, sand.y + 1))) {
+      return new Point(sand.x, sand.y + 1);
+   } else if (!rocks.has(new Point(sand.x - 1, sand.y + 1))) {
+      return new Point(sand.x - 1, sand.y + 1);
+   } else if (!rocks.has(new Point(sand.x + 1, sand.y + 1))) {
+      return new Point(sand.x + 1, sand.y + 1);
+   } else return sand;
+};
+
 export const step1 = (input: string) => {
    const rocks = getRocks(input);
    const floor = addFloor(rocks);
@@ -41,17 +44,13 @@ export const step1 = (input: string) => {
    let found = false;
    while (!found) {
       ++t;
-      let sand = new Point(500, 0);
+      let sand: Point = new Point(500, 0);
       while (!found) {
          if (sand.y + 1 >= floor) found = true;
 
-         if (!rocks.has(new Point(sand.x, sand.y + 1))) {
-            sand = new Point(sand.x, sand.y + 1);
-         } else if (!rocks.has(new Point(sand.x - 1, sand.y + 1))) {
-            sand = new Point(sand.x - 1, sand.y + 1);
-         } else if (!rocks.has(new Point(sand.x + 1, sand.y + 1))) {
-            sand = new Point(sand.x + 1, sand.y + 1);
-         } else break; // found place for sand
+         const newSand = updateSandPosition(sand, rocks);
+         if (sand.equals(newSand)) break;
+         else sand = newSand;
       }
       rocks.add(sand);
    }
@@ -69,13 +68,9 @@ export const step2 = (input: string) => {
       ++t;
       let sand = new Point(500, 0);
       while (true) {
-         if (!rocks.has(new Point(sand.x, sand.y + 1))) {
-            sand = new Point(sand.x, sand.y + 1);
-         } else if (!rocks.has(new Point(sand.x - 1, sand.y + 1))) {
-            sand = new Point(sand.x - 1, sand.y + 1);
-         } else if (!rocks.has(new Point(sand.x + 1, sand.y + 1))) {
-            sand = new Point(sand.x + 1, sand.y + 1);
-         } else break;
+         const newSand = updateSandPosition(sand, rocks);
+         if (sand.equals(newSand)) break;
+         else sand = newSand;
       }
       found = sand.equals(new Point(500, 0));
       rocks.add(sand);
