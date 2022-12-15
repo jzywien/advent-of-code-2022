@@ -2,6 +2,7 @@ import { Point } from '../util/geom';
 import { NUM } from '../util/regex';
 import { ObjectSet } from '../util/set/object-set';
 import { Circle } from '../util/geom/circle';
+import { DiagonalDirections } from '../util/direction';
 import '../util/polyfills';
 
 const getBeaconsAndSensors = (input: string): [ObjectSet<Circle>, ObjectSet<Point>] =>
@@ -33,19 +34,12 @@ export const step1 = (input: string, y = 10): number => {
    return count;
 };
 
-const signs = [
-   [-1, -1],
-   [-1, 1],
-   [1, -1],
-   [1, 1],
-];
-
 export const step2 = (input: string, max: number = 20): number => {
    const [sensors] = getBeaconsAndSensors(input);
    for (let sensor of sensors) {
       let [sx, sy, d] = [sensor.center.x, sensor.center.y, sensor.radius];
       for (let dx = 0, dy = d + 1 - dx; dx <= d + 1; ++dx) {
-         for (let [signX, signY] of signs) {
+         for (let [signX, signY] of DiagonalDirections) {
             const [x, y] = [sx + dx * signX, sy + dy * signY];
             if (x < 0 || y < 0 || x > max || y > max) continue;
             if (valid(new Point(x, y), sensors)) return x * 4000000 + y;

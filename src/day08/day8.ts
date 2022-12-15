@@ -1,5 +1,5 @@
 import '../util/polyfills';
-import { Direction } from '../util/direction';
+import { CartesianDirections } from '../util/direction';
 
 const visibleInDirection = (g: number[][], r: number, c: number, v: number, d: [number, number]): boolean => {
    const size = g.length - 1;
@@ -11,9 +11,7 @@ const visibleInDirection = (g: number[][], r: number, c: number, v: number, d: [
 };
 
 const isVisible = (grid: number[][], row: number, col: number): boolean =>
-   [Direction.R, Direction.L, Direction.U, Direction.D].some((dir) =>
-      visibleInDirection(grid, row, col, grid[row][col], dir)
-   );
+   CartesianDirections.some((dir) => visibleInDirection(grid, row, col, grid[row][col], dir));
 
 export const step1 = (input: string): number => {
    const grid = input.toMatrix(parseInt);
@@ -40,9 +38,10 @@ const numVisibleInDirection = (
 };
 
 const calculateScore = (grid: number[][], row: number, col: number): number =>
-   [Direction.R, Direction.L, Direction.U, Direction.D]
-      .map((dir) => numVisibleInDirection(grid, row, col, grid[row][col], dir))
-      .reduce((result, score) => result * score, 1);
+   CartesianDirections.map((dir) => numVisibleInDirection(grid, row, col, grid[row][col], dir)).reduce(
+      (result, score) => result * score,
+      1
+   );
 
 export const step2 = (input: string): number => {
    const grid = input.toMatrix(parseInt);

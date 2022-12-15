@@ -1,18 +1,16 @@
-import { Direction } from '../util/direction';
+import { CartesianDirections } from '../util/direction';
 import { Point } from '../util/geom';
 import { ObjectSet } from '../util/set/object-set';
 import '../util/polyfills';
 
 const findAdjacent = (grid: string[][], point: Point, notAdjTest: (num: number) => boolean): Point[] => {
    const [r, c] = [point.x, point.y];
-   return Object.values(Direction)
-      .map(([dx, dy]) => [r + dx, c + dy])
-      .reduce((adj, [nr, nc]) => {
-         if (nr < 0 || nc < 0 || nr >= grid.length || nc >= grid[r].length) return adj;
-         const diff = grid[nr][nc].charCodeAt(0) - grid[r][c].charCodeAt(0);
-         if (notAdjTest(diff)) return adj;
-         return [...adj, new Point(nr, nc)];
-      }, [] as Point[]);
+   return CartesianDirections.map(([dx, dy]) => [r + dx, c + dy]).reduce((adj, [nr, nc]) => {
+      if (nr < 0 || nc < 0 || nr >= grid.length || nc >= grid[r].length) return adj;
+      const diff = grid[nr][nc].charCodeAt(0) - grid[r][c].charCodeAt(0);
+      if (notAdjTest(diff)) return adj;
+      return [...adj, new Point(nr, nc)];
+   }, [] as Point[]);
 };
 
 const buildGrid = (input: string, start: string, end?: string): [string[][], Point, Point | undefined] => {

@@ -1,5 +1,5 @@
 import { ObjectSet } from '../util/set/object-set';
-import { Point, PointStr } from '../util/geom';
+import { Point } from '../util/geom';
 import '../util/polyfills';
 
 const getRocks = (input: string): ObjectSet<Point> =>

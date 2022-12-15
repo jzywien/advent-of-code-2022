@@ -20,10 +20,10 @@ const processInput = (input: string): [NumberOrArray, NumberOrArray][] =>
       .splitAndGroup<string>()
       .map(([left, right]) => [JSON.parse(left) as NumberOrArray, JSON.parse(right) as NumberOrArray]);
 
-export const step1 = (input: string): number => {
-   const data = processInput(input);
-   return data.map(([left, right], ndx) => (compare(left, right) < 0 ? ndx + 1 : 0)).sum();
-};
+export const step1 = (input: string): number =>
+   processInput(input)
+      .map(([left, right], ndx) => (compare(left, right) < 0 ? ndx + 1 : 0))
+      .sum();
 
 const initial: NumberOrArray = [[[2]], [[6]]];
 export const step2 = (input: string): number =>
